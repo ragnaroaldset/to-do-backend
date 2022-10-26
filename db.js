@@ -7,6 +7,10 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect();
 const collection = client.db(`${process.env.GROUP}`).collection("tasks");
 
+function updateTask(task) {
+	return collection.updateOne({ id: task.id}, { $set:{ completed: task.completed }});
+}
+
 function getAllTasks() {
 	return collection.find({}).toArray();
 }
@@ -23,4 +27,4 @@ function deleteTask(task) {
 	return collection.deleteOne(task);
 }
 
-module.exports = { getAllTasks, postNewTask, deleteTask };
+module.exports = { getAllTasks, postNewTask, deleteTask, updateTask };
